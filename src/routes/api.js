@@ -134,10 +134,78 @@ router.get('/api/kit_por_meta_tarea_cadena/:met/:tar/:cad', (req, res) => {
 });
 
 
+router.get('/api/metas_clasificador/:met', (req, res) => {
+    const { met} = req.params;
+    con.query('select cod_clasificador, clasificador from kit where cod_meta = ? order by cod_clasificador', [met], (err, rows, fields) => {
+    if (!err) {
+        res.json(rows);
+    } else {
+        console.log(err);
+    }
+});
+});
+
+
 
 router.get('/api/kit_por_programa_cadena/:prg/:cad', (req, res) => {
     const { prg,cad } = req.params;
     con.query('select cod_item_fam, nom_item_fam, nivel, tipo_bien, tipo_calculo, meta, sub_finalidad, clasificador from kit where cod_programa = ? and nom_item_fam like concat("%",?,"%") order by cod_meta, sub_finalidad limit 0,500', [prg,cad], (err, rows, fields) => {
+    if (!err) {
+        res.json(rows);
+    } else {
+        console.log(err);
+    }
+});
+});
+
+
+router.get('/api/kit_por_clasificador/:clf', (req, res) => {
+    const { clf } = req.params;
+    con.query('select cod_item_fam, nom_item_fam, nivel, tipo_bien, tipo_calculo, meta, sub_finalidad, clasificador from kit where cod_clasificador = ? order by cod_meta, sub_finalidad limit 0,500', [clf], (err, rows, fields) => {
+    if (!err) {
+        res.json(rows);
+    } else {
+        console.log(err);
+    }
+});
+});
+
+router.get('/api/kit_por_clasificador_cadena/:clf/:cad', (req, res) => {
+    const { clf,cad } = req.params;
+    con.query('select cod_item_fam, nom_item_fam, nivel, tipo_bien, tipo_calculo, meta, sub_finalidad, clasificador from kit where cod_clasificador = ? and nom_item_fam like concat("%",?,"%") order by cod_meta, sub_finalidad limit 0,500', [clf,cad], (err, rows, fields) => {
+    if (!err) {
+        res.json(rows);
+    } else {
+        console.log(err);
+    }
+});
+});
+
+router.get('/api/kit_por_meta_clasificador/:met/:clf', (req, res) => {
+    const { met,clf } = req.params;
+    con.query('select cod_item_fam, nom_item_fam, nivel, tipo_bien, tipo_calculo, meta, sub_finalidad, clasificador from kit where cod_meta = ? and cod_clasificador=? order by cod_programa, cod_meta, sub_finalidad limit 0,500', [met, clf], (err, rows, fields) => {
+    if (!err) {
+        res.json(rows);
+    } else {
+        console.log(err);
+    }
+});
+});
+
+router.get('/api/kit_por_meta_clasificador_cadena/:met/:clf/:cad', (req, res) => {
+    const { met,clf,cad } = req.params;
+    con.query('select cod_item_fam, nom_item_fam, nivel, tipo_bien, tipo_calculo, meta, sub_finalidad, clasificador from kit where cod_meta = ? and cod_clasificador=? and nom_item_fam like concat("%",?,"%") order by cod_programa, cod_meta, sub_finalidad limit 0,500', [met,clf,cad], (err, rows, fields) => {
+    if (!err) {
+        res.json(rows);
+    } else {
+        console.log(err);
+    }
+});
+});
+
+router.get('/api/kit_por_meta/:met', (req, res) => {
+    const { met } = req.params;
+    con.query('select cod_item_fam, nom_item_fam, nivel, tipo_bien, tipo_calculo, meta, sub_finalidad, clasificador from kit where cod_meta = ? order by cod_meta, sub_finalidad limit 0,500', [met], (err, rows, fields) => {
     if (!err) {
         res.json(rows);
     } else {
